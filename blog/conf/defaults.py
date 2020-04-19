@@ -1,0 +1,1 @@
+PUPUT_COMMENTS_PROVIDER = 'blog.comments.DisqusCommentsProvider'
