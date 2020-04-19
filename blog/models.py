@@ -4,8 +4,11 @@ from django.db import models
 from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase, Tag as TaggitTag
-from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.core import blocks
+from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
@@ -127,12 +130,21 @@ class EntryPage(Entry, Page):
     # Search
     search_fields = Page.search_fields + [
         index.SearchField('body'),
+        index.SearchField('content'),
         index.SearchField('excerpt'),
         index.FilterField('page_ptr_id')
     ]
 
+    content = StreamField([
+        ('heading', blocks.CharBlock(classname="full title")),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+    ], help_text="Основной контент статьи", blank=True)
+
     # Panels
-    content_panels = getattr(Entry, 'content_panels', [])
+    content_panels = getattr(Entry, 'content_panels', []) + [
+        StreamFieldPanel('content'),
+    ]
 
     promote_panels = Page.promote_panels + getattr(Entry, 'promote_panels', [])
 
