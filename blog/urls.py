@@ -1,40 +1,12 @@
 from django.conf import settings
-from django.conf.urls import url
-from django.urls import include, reverse
-from django.urls import path
-from wagtail.admin import urls as wagtailadmin_urls
-from wagtail.core import urls as wagtail_urls
-from wagtail.documents import urls as wagtaildocs_urls
+from django.urls import reverse, path, include
 
-from blog.feeds import BlogPageFeed
-from blog.utils import strip_prefix_and_ending_slash
-from blog.views import EntryPageUpdateCommentsView, EntryPageServe
-from search import views as search_views
+from .feeds import BlogPageFeed
+from .views import EntryPageServe, EntryPageUpdateCommentsView
+from .utils import strip_prefix_and_ending_slash
+
 
 urlpatterns = [
-    # url(r'^django-admin/', admin.site.urls),
-    # path('admin/', admin.site.urls),
-    url(r'^admin/', include(wagtailadmin_urls)),
-    url(r'^documents/', include(wagtaildocs_urls)),
-
-    url(r'^search/$', search_views.search, name='search'),
-]
-
-if settings.DEBUG:
-    from django.conf.urls.static import static
-    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-    # Serve static and media files from development server
-    import debug_toolbar
-
-    urlpatterns += [
-        path('__debug__/', include(debug_toolbar.urls))
-    ]
-    urlpatterns += staticfiles_urlpatterns()
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-# blog urls
-urlpatterns = urlpatterns + [
     path(
         route='entry_page/<entry_page_id>/update_comments/',
         view=EntryPageUpdateCommentsView.as_view(),
@@ -62,16 +34,30 @@ urlpatterns = urlpatterns + [
     )
 ]
 
-urlpatterns = urlpatterns + [
-    # For anything not caught by a more specific rule above, hand over to
-    # Wagtail's page serving mechanism. This should be the last pattern in
-    # the list:
-    url(r'', include(wagtail_urls)),
+if not getattr(settings, 'PUPUT_AS_PLUGIN', False):
+    from wagtail.core import urls as wagtail_urls
+    from wagtail.admin import urls as wagtailadmin_urls
+    from wagtail.documents import urls as wagtaildocs_urls
+    from wagtail.contrib.sitemaps.views import sitemap
 
-    # Alternatively, if you want Wagtail pages to be served from a subpath
-    # of your site, rather than the site root:
-    #    url(r"^pages/", include(wagtail_urls)),
-]
+    urlpatterns.extend([
+        path(
+            route='blog_admin/',
+            view=include(wagtailadmin_urls)
+        ),
+        path(
+            route='',
+            view=include(wagtail_urls)
+        ),
+        path(
+            route='documents/',
+            view=include(wagtaildocs_urls)
+        ),
+        path(
+            route='sitemap.xml',
+            view=sitemap
+        )
+    ])
 
 
 def get_entry_url(entry, blog_page, root_page):

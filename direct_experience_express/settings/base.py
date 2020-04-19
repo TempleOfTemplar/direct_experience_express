@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'wagtail.contrib.sitemaps',
+    'wagtail.contrib.routable_page',
     # wagtail related
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -44,6 +45,9 @@ INSTALLED_APPS = [
     # other packages
     'modelcluster',
     'taggit',
+
+    'django_social_share',
+    'colorful',
     # dev only packages
 ]
 
@@ -153,3 +157,8 @@ MEDIA_URL = '/media/'
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://example.com'
+# puput configs
+# PUPUT_AS_PLUGIN = True
+# PUPUT_ENTRY_MODEL = 'blog.models.BlogEntryPageAbstract'
+# PUPUT_BLOG_MODEL = 'blog.models.BlogPageAbstract'
+# MIGRATION_MODULES = {'puput': 'direct_experience_express.puput_migrations'}
