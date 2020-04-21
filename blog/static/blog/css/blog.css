@@ -13,4 +13,12 @@ body {
   word-wrap: break-word;
 }
 
+ul li {
+  list-style: none;
+}
+
+.social-share {
+  display: flex;
+}
+
 /*# sourceMappingURL=blog.css.map */

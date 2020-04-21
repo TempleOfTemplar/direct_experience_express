@@ -28,7 +28,7 @@
     <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
     <link href='//fonts.googleapis.com/css?family=Roboto:400,300,300italic,100italic,100,400italic,500,500italic,700,900,700italic,900italic' rel='stylesheet' type='text/css'>
     {% block css %}
-        <link rel='stylesheet' href="{% static 'blog/css/bootstrap.min.css' %}" type='text/css'/>
+<!--        <link rel='stylesheet' href="{% static 'blog/css/bootstrap.min.css' %}" type='text/css'/>-->
         <link rel="stylesheet" href="{% static 'blog/css/font-awesome.min.css' %}">
         <link rel="stylesheet" href="{% static 'blog/css/orbit-bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
@@ -51,12 +51,13 @@
         {% endif %}
         <div class="container">
             <section class="{% if blog_page.header_image %}title-section-image{% else %}title-section{% endif %}">
-                <h1 class="title-header">
+                <h1 class="headline-alert">
                     <a href="{% pageurl blog_page %}">{{ blog_page.title }}</a>
                 </h1>
                 {% if not blog_page.header_image %}
                     <h2>{{ blog_page.description }}</h2>
                 {% endif %}
+                <hr>
             </section>
         </div>
     </div>
@@ -87,31 +88,31 @@
 
                 {% if blog_page.display_last_entries %}
                     <ul class="sidebar">
-                        <h4>Новые статьи</h4>
+                        <h4 class="headline3 mb-0">Новые статьи</h4>
                         {% recent_entries blog_page.num_last_entries %}
                     </ul>
                 {% endif %}
                 {% if blog_page.display_popular_entries %}
                     <ul class="sidebar">
-                        <h4>Популярные статьи</h4>
+                        <h4 class="headline3 mb-0">Популярные статьи</h4>
                         {% popular_entries blog_page.num_popular_entries %}
                     </ul>
                 {% endif %}
                 {% if blog_page.display_categories %}
                     <ul class="sidebar">
-                        <h4>Категории</h4>
+                        <h4 class="headline3 mb-0">Категории</h4>
                         {% categories_list %}
                     </ul>
                 {% endif %}
                 {% if blog_page.display_tags %}
                     <ul class="sidebar">
-                        <h4>Теги</h4>
+                        <h4 class="headline3 mb-0">Теги</h4>
                         {% tags_list %}
                     </ul>
                 {% endif %}
                 {% if blog_page.display_archive %}
                     <ul class="sidebar widget menu">
-                        <h4>Архив</h4>
+                        <h4 class="headline3 mb-0">Архив</h4>
                         {% archives_list %}
                     </ul>
                 {% endif %}

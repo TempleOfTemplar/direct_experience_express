@@ -12,3 +12,11 @@ body {
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
+ul {
+  li {
+    list-style: none;
+  }
+}
+.social-share {
+  display: flex;
+}
